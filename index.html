@@ -1,0 +1,882 @@
+<!--
+  File: index.html
+  Author: Prem Patel
+  Date: January 25, 2026
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- ===== Meta ===== -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ===== Title / Favicon ===== -->
+    <title>Prem Patel | Portfolio</title>
+    <link rel="icon" type="image/png" href="assets/favicon/favicon.png" />
+
+    <!-- ===== Styles ===== -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- =========================================================
+      NAV
+    ========================================================== -->
+    <div class="navWrap">
+      <nav class="navPill">
+        <div class="navLeft">
+          <a class="logo glow" id="navToggleLogo" href="#home" aria-label="Home">PP</a>
+        </div>
+
+        <div class="navCenter" aria-label="Primary">
+          <a class="navLink" href="#home">Home</a>
+          <a class="navLink" href="#about">About</a>
+          <a class="navLink" href="#skills">Skills</a>
+          <a class="navLink" href="#experience">Experience</a>
+          <a class="navLink" href="#education">Education</a>
+          <a class="navLink" href="#contact">Contact</a>
+        </div>
+
+        <div class="navRight">
+          <!-- Trailhead Icon Button -->
+          <button class="iconBtn" id="trailheadBtn" aria-label="Trailhead Stats" title="Trailhead Stats" type="button">
+            <span class="iconCircle glow">
+              <img src="assets/skills/Salesforce.png" alt="Salesforce" class="navIconImg" />
+            </span>
+          </button>
+
+          <!-- Certifications Icon Button -->
+          <button class="iconBtn" id="certBtn" aria-label="Certifications" title="Certifications" type="button">
+            <span class="iconCircle glow">
+              <img src="assets/badges/certified-professional.jpeg" alt="Certifications" class="navIconImg" />
+            </span>
+          </button>
+
+          <!-- Mobile menu button -->
+          <button class="iconBtn mobileOnly" id="mobileMenuBtn" aria-label="Open menu" title="Menu" type="button">
+            <span class="iconCircle glow">≡</span>
+          </button>
+
+          <!-- Theme toggle -->
+          <button class="iconBtn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme" type="button">
+            <span class="iconCircle glow" id="themeIcon">☀️</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- =========================================================
+      MOBILE MENU (Modal)
+    ========================================================== -->
+    <div class="modalBackdrop" id="mobileMenuBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Mobile menu">
+        <div class="modalHeader">
+          <div style="font-weight: 950;">Menu</div>
+          <button class="iconBtn" data-close="mobileMenuBackdrop" aria-label="Close menu" type="button">
+            <span class="iconCircle">✕</span>
+          </button>
+        </div>
+
+        <div class="modalBody">
+          <div class="mobileNav">
+            <a class="mobileNavLink" href="#home" data-close="mobileMenuBackdrop">Home</a>
+            <a class="mobileNavLink" href="#about" data-close="mobileMenuBackdrop">About</a>
+            <a class="mobileNavLink" href="#skills" data-close="mobileMenuBackdrop">Skills</a>
+            <a class="mobileNavLink" href="#experience" data-close="mobileMenuBackdrop">Experience</a>
+            <a class="mobileNavLink" href="#education" data-close="mobileMenuBackdrop">Education</a>
+            <a class="mobileNavLink" href="#contact" data-close="mobileMenuBackdrop">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+      MAIN CONTENT
+    ========================================================== -->
+    <main class="page">
+      <!-- =======================================================
+        HERO
+      ======================================================== -->
+      <section id="home" class="section card hero reveal">
+        <!-- Left column -->
+        <div>
+          <h1>Hi! My name is <span class="text-gradient">Prem Patel</span></h1>
+
+          <!-- Typing line (replaces your old subtitle) -->
+          <p class="subtitle">
+            <span id="typingPrefix">I’m an </span><span id="typingText" class="typing text-gradient"></span
+            ><span class="typingCaret" aria-hidden="true">|</span>
+          </p>
+
+          <!-- Social links -->
+          <div class="socialRow">
+            <a
+              class="socialChip"
+              href="https://www.linkedin.com/in/patel-k-prem/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
+              <svg class="icon linkedin" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M4.98 3.5c0 1.38-1.11 2.5-2.48 2.5C1.11 6 0 4.88 0 3.5S1.11 1 2.5 1s2.48 1.12 2.48 2.5zM.22 24h4.56V7.98H.22V24zM8.22 7.98H12.6v2.16h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.48 3.04 5.48 6.99V24h-4.56v-7.69c0-1.84-.03-4.2-2.56-4.2-2.56 0-2.95 2-2.95 4.07V24H8.22V7.98z"
+                />
+              </svg>
+            </a>
+
+            <a
+              class="socialChip"
+              href="https://github.com/Prem-Patel20"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+            >
+              <svg class="icon github" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.23 1.84 1.23 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.4s2.05.13 3.01.4c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.21.69.83.57C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+            </a>
+
+            <a
+              class="socialChip"
+              href="https://www.salesforce.com/trailblazer/ppatel668"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Trailhead"
+            >
+              <img src="assets/about-me/trailhead.svg" alt="Trailhead" class="icon trailheadIcon" />
+            </a>
+           <div class="workStatusPill" id="workStatusPill">
+            <span class="workStatusDot"></span>
+            <span class="workStatusText">Open to Work</span>
+          </div>
+          </div>
+        </div>
+
+        <!-- Right column (avatar) -->
+        <div class="avatarCircle float" aria-label="Avatar">
+          <img src="assets/about-me/1757213410796.jpeg" alt="Prem Patel" class="avatarImg" />
+        </div>
+      </section>
+
+      <!-- =======================================================
+        ABOUT
+      ======================================================== -->
+      <section id="about" class="section card reveal">
+        <!-- About: quick summary + key info pills -->
+        <h2 class="sectionTitle">
+          <span class="sectionIcon" aria-hidden="true">👤</span>
+          <span class="text-gradient">About Me</span>
+        </h2>
+
+        <div class="aboutGrid">
+          <div>
+            <p class="subtitle" style="margin-bottom: 10px;">
+             I am a Salesforce Developer based in Chicago with a strong focus on multi-cloud development and enterprise consulting. I specialize in designing scalable Salesforce solutions, building custom applications, and implementing intelligent automation using Apex, Lightning Web Components, Flows, and Agentforce. I work closely with cross-functional teams to deliver high-impact solutions across Aerospace & Defense, Healthcare, Financial Services, Manufacturing, Telecommunications, and Artificial Intelligence.
+            </p>
+
+            <!-- About pills: location, experience, cloud focus, certifications -->
+            <div class="pillRow pillRowEnhanced">
+              <!-- Location -->
+              <div class="pillItem card-hover" title="Location">
+                <div class="pillCircle">
+                  <img src="assets/about-me/location.png" alt="Location" class="pillImg" />
+                </div>
+                <div class="pillText">
+                  <div class="pillTitle">Chicago, IL</div>
+                  <div class="pillDesc">Location</div>
+                </div>
+              </div>
+
+              <!-- Experience -->
+              <div class="pillItem card-hover" title="Experience">
+                <div class="pillCircle">
+                  <img src="assets/about-me/workexperience.png" alt="Experience" class="pillImg" />
+                </div>
+                <div class="pillText">
+                  <div class="pillTitle">3+ yrs</div>
+                  <div class="pillDesc">Experience</div>
+                </div>
+              </div>
+
+              <!-- Focus -->
+              <div class="pillItem card-hover" title="Focus">
+                <div class="pillCircle pillCircle--large">
+                  <img src="assets/skills/Salesforce.png" alt="Salesforce" class="pillImg pillImg--logo" />
+                </div>
+
+                <div class="pillText">
+                  <div class="pillTitle">Salesforce</div>
+
+                  <!-- Cloud icons inside the Focus pill -->
+                  <div class="pillTechRow">
+                    <div class="pillTech">
+                      <img src="assets/about-me/sales-cloud.png" alt="Sales Cloud" />
+                      <span>Sales Cloud</span>
+                    </div>
+
+                    <div class="pillTech">
+                      <img src="assets/about-me/service-cloud.png" alt="Service Cloud" />
+                      <span>Service Cloud</span>
+                    </div>
+
+                    <div class="pillTech">
+                      <img src="assets/about-me/experience-cloud.png" alt="Experience Cloud" />
+                      <span>Experience Cloud</span>
+                    </div>
+
+                    <div class="pillTech">
+                      <img src="assets/about-me/platform.png" alt="Salesforce Platform" />
+                      <span>Platform</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Certifications (opens modal) -->
+              <button
+                class="pillItem pillItemBtn card-hover"
+                type="button"
+                onclick="openModal('certBackdrop')"
+                title="View Certifications"
+              >
+                <div class="pillCircle">
+                  <img src="assets/badges/certified-professional.jpeg" alt="Certifications" class="pillImg" />
+                </div>
+
+                <div class="pillText">
+                  <div class="pillTitleRow">
+                    <div class="pillTitle">Certifications</div>
+                    <span class="pillArrow" aria-hidden="true">↗</span>
+                  </div>
+                  <div class="pillDesc">View all</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+        SKILLS
+      ======================================================== -->
+      <section id="skills" class="section card reveal">
+        <h2 class ="sectionTitle"> <span class="sectionIcon" aria-hidden="true">🛠️</span><span class="text-gradient">Skills</span></h2>
+
+        <div class="skillsGrid">
+          <!-- Skill cards -->
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/Salesforce.png" alt="Salesforce" />
+            <div class="skillName">Salesforce</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/apex.png" alt="Apex Programming" />
+            <div class="skillName">Apex Programming</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/lwc.png" alt="Lightning Web Components" />
+            <div class="skillName">Lightning Web Components</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/flow.svg" alt="Flows" />
+            <div class="skillName">Flows</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/agentforce.png" alt="Agentforce" />
+            <div class="skillName">Agentforce</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/process-builder.png" alt="Process Builders" />
+            <div class="skillName">Process Builders</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/workflow.png" alt="Workflow Rules" />
+            <div class="skillName">Workflow Rules / Approval Processes</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/visualforce.png" alt="Visualforce" />
+            <div class="skillName">Visualforce</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/soql.png" alt="SOQL" />
+            <div class="skillName">SOQL/SOSL</div>
+          </div>
+
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/dataloader.png" alt="Data Loader" />
+            <div class="skillName">Salesforce Data Loader / Data Import Wizard</div>
+          </div>
+          
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/api.png" alt="REST API Integrations" />
+            <div class="skillName">REST API Integrations</div>
+          </div>
+
+           <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/postman.png" alt="Postman" />
+            <div class="skillName">Postman</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/java.png" alt="Java" />
+            <div class="skillName">Java</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/html.png" alt="HTML" />
+            <div class="skillName">HTML</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/css.png" alt="CSS" />
+            <div class="skillName">CSS</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/javascript.png" alt="JavaScript" />
+            <div class="skillName">JavaScript</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/copado.png" alt="Copado" />
+            <div class="skillName">Copado</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/gearset.png" alt="Gearset" />
+            <div class="skillName">Gearset</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/changeset.png" alt="Changeset" />
+            <div class="skillName">Changeset</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/workbench.jpg" alt="Workbench" />
+            <div class="skillName">Workbench</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/vscode.png" alt="Visual Studio Code" />
+            <div class="skillName">Visual Studio Code</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/github.png" alt="GitHub" />
+            <div class="skillName">GitHub</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/azure-devops.svg" alt="Azure DevOps" />
+            <div class="skillName">Azure DevOps</div>
+          </div>
+
+          <div class="skillCard card-hover">
+            <img class="skillIcon" src="assets/skills/jira.svg" alt="Atlassian Jira" />
+            <div class="skillName">Atlassian Jira</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+        EXPERIENCE
+      ======================================================== -->
+      <section id="experience" class="section card reveal">
+        <h2 class ="sectionTitle"> <span class="sectionIcon" aria-hidden="true">💼</span><span class="text-gradient">Professional Experience</span></h2>
+
+        <!-- Experience 1 -->
+        <div class="expCard card-hover eduRow">
+          <!-- LEFT: Image -->
+          <div class="eduMedia">
+            <img class="eduPhoto" src="assets/work-experience/Capgemini_logo.png" alt="Capgemini" />
+          </div>
+
+          <!-- RIGHT: Info -->
+          <div class="eduInfo">
+            <div class="expTop eduTop">
+              <div>
+                <div class="eduDegree">Salesforce Developer</div>
+                <div class="eduSchool">Capgemini</div>
+              </div>
+              <div class="eduDates">September 2025 — Present</div>
+            </div>
+
+            <ul class="bullets">
+             <!--- <li>Built LWCs and Apex services with clean patterns and strong test coverage.</li>
+              <li>Automated business processes with Flows and Salesforce-native best practices.</li>
+              <li>Worked on integrations, data quality, and CI/CD deployments.</li>-->
+            </ul>
+          </div>
+        </div>
+
+        <div style="height: 20px;"></div>
+
+        <!-- Experience 2 -->
+        <div class="expCard card-hover eduRow">
+          <!-- LEFT: Image -->
+          <div class="eduMedia">
+            <img class="eduPhoto" src="assets/work-experience/SMBHD.jpeg" alt="SMBHD" />
+          </div>
+
+          <!-- RIGHT: Info -->
+          <div class="eduInfo">
+            <div class="expTop eduTop">
+              <div>
+                <div class="eduDegree">Salesforce Consultant / Administrator</div>
+                <div class="eduSchool">SMBHD</div>
+              </div>
+              <div class="eduDates">January 2025 — September 2025</div>
+            </div>
+
+            <ul class="bullets">
+              <li>Managed Salesforce administration including user access, profiles, roles, OWD, permission sets, and core platform configurations.</li>
+              <li>Collaborated with senior consultants and architects to gather requirements and define business processes.</li>
+              <li>Implemented Salesforce Agentforce functionality to enhance productivity and streamline client workflows.</li>
+              <li>Implemented declarative configurations and complex Flow automations across Sales Cloud, Service Cloud, Field Service Lightning, and Industries CPQ (Vlocity).</li>
+              <li>Designed scalable data models and Lightning UI components to support business workflows.</li>
+              <li>Mentored junior consultants on Salesforce best practices, with a focus on declarative platform capabilities.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="height: 20px;"></div>
+
+        <!-- Experience 3 -->
+        <div class="expCard card-hover eduRow">
+          <!-- LEFT: Image -->
+          <div class="eduMedia">
+            <img class="eduPhoto" src="assets/work-experience/Capgemini_logo.png" alt="Capgemini" />
+          </div>
+
+          <!-- RIGHT: Info -->
+          <div class="eduInfo">
+            <div class="expTop eduTop">
+              <div>
+                <div class="eduDegree">Salesforce Consultant / Developer</div>
+                <div class="eduSchool">Capgemini</div>
+              </div>
+              <div class="eduDates">October 2022 — November 2024</div>
+            </div>
+
+            <ul class="bullets">
+              <li>Built and supported scalable solutions across Sales Cloud, Service Cloud, and Experience Cloud using declarative low-code tools and custom development.</li>
+              <li>Developed Apex-based REST API integrations and reusable frameworks for real-time data synchronization.</li>
+              <li>Implemented custom functionality using Apex and Lightning Web Components.</li>
+              <li>Delivered solutions across Healthcare, Manufacturing, and Artificial Intelligence industries.</li>
+              <li>Collaborated with solution architects, business analysts, and global onshore/offshore teams.</li>
+              <li>Supported sprint releases by resolving defects, integration issues, and deployment blockers using DevOps tools.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+        EDUCATION
+      ======================================================== -->
+      <section id="education" class="section card reveal">
+        <h2 class ="sectionTitle"> <span class="sectionIcon" aria-hidden="true">🎓</span><span class="text-gradient">Education</span></h2>
+
+        <div class="expCard card-hover eduRow">
+          <!-- LEFT: Image -->
+          <div class="eduMedia">
+            <img
+              class="eduPhoto"
+              src="assets/education/Northeastern_Illinois_University.png"
+              alt="Northeastern Illinois University"
+            />
+          </div>
+
+          <!-- RIGHT: Info -->
+          <div class="eduInfo">
+            <div class="expTop eduTop">
+              <div>
+                <div class="eduDegree">Bachelor of Science in Computer Science</div>
+                <div class="eduSchool">Northeastern Illinois University</div>
+              </div>
+              <div class="eduDates">August 2018 — May 2022</div>
+            </div>
+
+            <div class="eduMajor">Dual Concentration: Computer Network Security & Information Technology</div>
+          </div>
+        </div>
+
+        <div style="height: 20px;"></div>
+
+        <div class="expCard card-hover eduRow">
+          <!-- LEFT: Image -->
+          <div class="eduMedia">
+            <img class="eduPhoto" src="assets/education/AmundsenHighSchool.png" alt="Amundsen High School" />
+          </div>
+
+          <!-- RIGHT: Info -->
+          <div class="eduInfo">
+            <div class="expTop eduTop">
+              <div>
+                <div class="eduDegree">High School Diploma</div>
+                <div class="eduSchool">Amundsen High School</div>
+              </div>
+              <div class="eduDates">September 2016 — May 2018</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+        CONTACT
+      ======================================================== -->
+      <section id="contact" class="section card reveal">
+        <h2 class ="sectionTitle"> <span class="sectionIcon" aria-hidden="true">✉️</span><span class="text-gradient">Contact Me</span></h2>
+        <div class="profileCard" style="margin-bottom: 16px; text-align: center;">
+        <div>
+          <h3 class="contactTitle">Let’s Connect</h3>
+
+          <p class="contactSubtitle">
+            Whether you’re looking for a Salesforce professional to build scalable solutions, optimize existing implementations, or collaborate on meaningful initiatives, I’d love to connect.
+          </p>
+        </div>
+      </div>
+        
+        <form
+          id="contactForm"
+          class="contactForm"
+          action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DgL00000CASr4"
+          method="POST"
+          onsubmit="handleWebToLead(event)"
+        >
+          <!-- Salesforce Web-to-Lead -->
+          <input type="hidden" name="oid" value="00DgL00000CASr4" />
+          <input type="hidden" name="retURL" value="" />
+
+          <!-- Hidden Salesforce fields (populated from Full Name) -->
+          <input type="hidden" id="sf_name" name="name" value="" />
+          <input type="hidden" id="first_name" name="first_name" value="" />
+          <input type="hidden" id="last_name" name="last_name" value="" />
+
+          <!-- Defaulted (not shown on UI) -->
+          <input type="hidden" id="company" name="company" value="Portfolio" />
+
+          <div class="field">
+            <label for="full_name">Full Name</label>
+            <input id="full_name" name="full_name" type="text" placeholder="Name *" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Email * " required />
+          </div>
+
+          <div class="field">
+            <label for="00NgL000036PUif">Subject</label>
+            <input
+              id="00NgL000036PUif"
+              name="00NgL000036PUif"
+              type="text"
+              placeholder="Subject *"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="00NgL000036PTY5">How Can I Help You?</label>
+            <textarea
+              id="00NgL000036PTY5"
+              name="00NgL000036PTY5"
+              rows="5"
+              placeholder="Your Message *"
+              required
+            ></textarea>
+          </div>
+
+          <button class="primaryBtn" type="submit" id="contactSubmitBtn">Send Message</button>
+        </form>
+      </section>
+
+
+      <!-- =========================================================
+        CONTACT SUCCESS MODAL
+      ========================================================== -->
+      <div class="modalBackdrop" id="contactSuccessBackdrop" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-label="Contact form submitted">
+          <div class="modalHeader">
+            <div class="modalHeaderTitle successTitle">Message Sent!</div>
+            <button class="iconBtn" data-close="contactSuccessBackdrop" aria-label="Close success modal" type="button">
+              <span class="iconCircle">✕</span>
+            </button>
+          </div>
+
+          <div class="modalBody">
+            <p class="successMessage">
+              You have submitted the form successfully! Thanks for reaching out — I’ll get back to you as soon as I can.
+            </p>
+
+            <div style="height: 10px;"></div>
+
+            <button class="primaryBtn" type="button" data-close="contactSuccessBackdrop" style="width: 100%;">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- =======================================================
+        FOOTER
+      ======================================================== -->
+      <div class="footer">© 2026 Prem Patel · All rights reserved</div>
+    </main>
+
+    <!-- =========================================================
+      TRAILHEAD MODAL
+    ========================================================== -->
+    <div class="modalBackdrop" id="trailheadBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Trailhead Stats">
+        <div class="modalHeader">
+          <div class="modalHeaderTitle modalSectionTitle">
+          <span class="sectionIcon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>
+            </svg>
+          </span>
+          <span class="text-gradient">Trailhead</span>
+        </div>
+          <button class="iconBtn" data-close="trailheadBackdrop" aria-label="Close Trailhead modal" type="button">
+            <span class="iconCircle">✕</span>
+          </button>
+        </div>
+
+        <div class="modalBody">
+          <div class="rankBox">
+            <!-- Rank Image -->
+            <img src="assets/trailhead/all-star-ranger.png" alt="All Star Ranger Badge" class="rankImage" />
+            <div class="rankTitle">Current Rank</div>
+            <div class="rankValue allStar" id="rankValue">All Star Ranger</div>
+          </div>
+
+          <div class="statsGrid">
+            <div class="statCard">
+              <div>Trailhead Points</div>
+              <div class="big">428,300</div>
+            </div>
+
+            <div class="statCard">
+              <div>Trails Completed</div>
+              <div class="big">72</div>
+            </div>
+
+            <div class="statCard">
+              <div>Certifications</div>
+              <div class="big">15</div>
+            </div>
+
+            <div class="statCard">
+              <div>Badges</div>
+              <div class="big">609</div>
+            </div>
+
+            <!-- Agentblazer fills remaining space -->
+            <div class="statCard agentblazer" aria-label="Agentblazer Legend ’26"></div>
+          </div>
+
+          <div style="height: 12px;"></div>
+
+          <div class="rankHistoryTitle">Rank History</div>
+
+          <div class="rankHistory">
+            <div class="rankItem">
+              <img src="assets/trailhead/trailhead-rank-ranger.png" alt="Five Star Ranger Badge" class="rankImage" />
+              <span class="rankName">Ranger</span>
+              <span class="rankYear">2022</span>
+            </div>
+
+            <div class="rankItem">
+              <img
+                src="assets/trailhead/trailhead-rank-double-star-ranger.png"
+                alt="Five Star Ranger Badge"
+                class="rankImage"
+              />
+              <span class="rankName">Double Star Ranger</span>
+              <span class="rankYear">2022</span>
+            </div>
+
+            <div class="rankItem">
+              <img
+                src="assets/trailhead/trailhead-rank-triple-star-ranger.png"
+                alt="Five Star Ranger Badge"
+                class="rankImage"
+              />
+              <span class="rankName">Triple Star Ranger</span>
+              <span class="rankYear">2023</span>
+            </div>
+
+            <div class="rankItem">
+              <img
+                src="assets/trailhead/trailhead-rank-four-star-ranger.png"
+                alt="Five Star Ranger Badge"
+                class="rankImage"
+              />
+              <span class="rankName">Four Star Ranger</span>
+              <span class="rankYear">2024</span>
+            </div>
+
+            <div class="rankItem highlight">
+              <img
+                src="assets/trailhead/trailhead-rank-five-star-ranger.png"
+                alt="Five Star Ranger Badge"
+                class="rankImage"
+              />
+              <span class="rankName">Five Star Ranger</span>
+              <span class="rankYear">2025</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+      CERTIFICATIONS MODAL
+    ========================================================== -->
+    <div class="modalBackdrop" id="certBackdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-label="Certifications">
+        <div class="modalHeader">
+          <div class="modalHeaderTitle modalSectionTitle">
+          <span class="sectionIcon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M6 22l6-4 6 4V12H6z"/>
+            </svg>
+          </span>
+          <span class="text-gradient">Certifications</span>
+        </div>
+          <button class="iconBtn" data-close="certBackdrop" aria-label="Close certifications modal" type="button">
+            <span class="iconCircle">✕</span>
+          </button>
+        </div>
+
+        <div class="modalBody">
+          <div class="chipRow">
+            <button class="chip chip-all active" data-tab="all" type="button">All</button>
+            <button class="chip chip-associate" data-tab="associate" type="button">Associate</button>
+            <button class="chip chip-admin" data-tab="admin" type="button">Administrator</button>
+            <button class="chip chip-consultant" data-tab="consultant" type="button">Consultant</button>
+            <button class="chip chip-dev" data-tab="dev" type="button">Developer</button>
+            <button class="chip chip-copado" data-tab="copado" type="button">Copado</button>
+          </div>
+
+          <div class="badgeGrid" id="badgeGrid">
+            <!-- ADMIN -->
+            <div class="badge" data-tab="admin">
+              <!-- NOTE: Kept the src exactly as provided (may be a placeholder path). -->
+              <img class="badgeImg" src="images/badges/admin.png" alt="Platform Administrator" />
+              <div class="badgeLabel">Platform Administrator</div>
+              <div class="badgeTooltip">Issued Dec 2022</div>
+            </div>
+
+            <div class="badge" data-tab="admin">
+              <img class="badgeImg" src="images/badges/admin2.png" alt="Platform Administrator II" />
+              <div class="badgeLabel">Platform Administrator II</div>
+              <div class="badgeTooltip">Issued May 2025</div>
+            </div>
+
+            <div class="badge" data-tab="admin">
+              <img class="badgeImg" src="images/badges/appbuilder.png" alt="Platform App Builder" />
+              <div class="badgeLabel">Platform App Builder</div>
+              <div class="badgeTooltip">Issued Jan 2023</div>
+            </div>
+
+            <!-- CONSULTANT -->
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/salescloud.png" alt="Sales Cloud Consultant" />
+              <div class="badgeLabel">Sales Cloud Consultant</div>
+              <div class="badgeTooltip">Issued Dec 2023</div>
+            </div>
+
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/servicecloud.png" alt="Service Cloud Consultant" />
+              <div class="badgeLabel">Service Cloud Consultant</div>
+              <div class="badgeTooltip">Issued Jul 2023</div>
+            </div>
+
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/fieldservice.png" alt="Field Service Consultant" />
+              <div class="badgeLabel">Field Service Consultant</div>
+              <div class="badgeTooltip">Issued Dec 2023</div>
+            </div>
+
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/experiencecloud.png" alt="Experience Cloud Consultant" />
+              <div class="badgeLabel">Experience Cloud Consultant</div>
+              <div class="badgeTooltip">Issued Nov 2024</div>
+            </div>
+
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/datacloud.png" alt="Data Cloud Consultant" />
+              <div class="badgeLabel">Data Cloud Consultant</div>
+              <div class="badgeTooltip">Issued Feb 2024</div>
+            </div>
+
+            <div class="badge" data-tab="consultant">
+              <img class="badgeImg" src="images/badges/businessanalyst.png" alt="Business Analyst" />
+              <div class="badgeLabel">Business Analyst</div>
+              <div class="badgeTooltip">Issued Jun 2025</div>
+            </div>
+
+            <!-- DEVELOPER -->
+            <div class="badge" data-tab="dev">
+              <img class="badgeImg" src="images/badges/pd1.png" alt="Platform Developer" />
+              <div class="badgeLabel">Platform Developer</div>
+              <div class="badgeTooltip">Issued May 2023</div>
+            </div>
+
+            <div class="badge" data-tab="dev">
+              <img class="badgeImg" src="images/badges/agentforce.png" alt="Agentforce Specialist" />
+              <div class="badgeLabel">Agentforce Specialist</div>
+              <div class="badgeTooltip">Issued Sep 2024</div>
+            </div>
+
+            <!-- ASSOCIATE -->
+            <div class="badge" data-tab="associate">
+              <img class="badgeImg" src="images/badges/aiassociate.png" alt="AI Associate" />
+              <div class="badgeLabel">AI Associate</div>
+              <div class="badgeTooltip">Issued Sep 2023</div>
+            </div>
+
+            <div class="badge" data-tab="associate">
+              <img class="badgeImg" src="images/badges/marketingfoundations.png" alt="Marketing Cloud Foundations" />
+              <div class="badgeLabel">Marketing Cloud Foundations</div>
+              <div class="badgeTooltip">Issued Jun 2024</div>
+            </div>
+
+            <div class="badge" data-tab="associate">
+              <img class="badgeImg" src="images/badges/salesfoundations.png" alt="Sales Foundations" />
+              <div class="badgeLabel">Sales Foundations</div>
+              <div class="badgeTooltip">Issued Nov 2023</div>
+            </div>
+
+            <div class="badge" data-tab="associate">
+              <img class="badgeImg" src="images/badges/platformfoundations.png" alt="Platform Foundations" />
+              <div class="badgeLabel">Platform Foundations</div>
+              <div class="badgeTooltip">Issued Apr 2023</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+      Scripts
+    ========================================================== -->
+    <script src="app.js"></script>
+  </body>
+</html>
