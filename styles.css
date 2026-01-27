@@ -1150,37 +1150,51 @@ input:focus, textarea:focus{
   transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
   cursor: default;
 }
-.agentblazer{
-  grid-column: 2 / -1;
-  grid-row: 2;
-  background-image: url("./assets/trailhead/Agentblazer-Status.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.statCard.agentblazer{
+  grid-column: auto;
+  grid-row: auto;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    rgba(164, 98, 255, 0.18),
+    rgba(86, 122, 255, 0.14)
+  );
+
+  backdrop-filter: blur(12px);
+}
+.statCard.agentblazer:hover{
+  background: linear-gradient(
+    135deg,
+    rgba(164, 98, 255, 0.24),
+    rgba(86, 122, 255, 0.18)
+  );
+}
+
+.agentblazerImg{
+  max-height: 90px;
+  width: auto;
+  height: auto;
+  display: block;
+
+  margin: 0;
+  flex: 0 0 auto;
+
+  border-radius: 14px;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.22));
 }
 .navIconImg{
   width: 30px;
   height: 30px;
   object-fit: contain;
   display: block;
-}
-
-.agentblazer.statCard{
-  padding: 0 !important;
-  overflow: hidden;
-  border-radius: 16px;
-  background-image: url("assets/trailhead/Agentblazer-Status.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
-}
-.agentblazer.statCard:hover{
-  background-image: url("assets/trailhead/Agentblazer-Status.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
 }
 .statCard{
   border-radius: 16px;
