@@ -191,6 +191,7 @@ const certs = [
 
   // DEVELOPER
   { name: 'SF Certified Platform Developer', group: 'dev', img: 'assets/badges/pd1.png', issued: 'May 2023' },
+  { name: 'SF Certified JavaScript Developer', group: 'dev', img: 'assets/badges/jsd1.png', issued: 'Feb 2026' },
   { name: 'SF Certified Agentforce Specialist', group: 'dev', img: 'assets/badges/agentforce.png', issued: 'September 2024' },
 
   // ASSOCIATE ✅
