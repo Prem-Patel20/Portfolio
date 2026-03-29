@@ -195,7 +195,7 @@ const certs = [
   { name: 'SF Certified Agentforce Specialist', group: 'dev', img: 'assets/badges/agentforce.png', issued: 'September 2024' },
 
   // ASSOCIATE ✅
-  { name: 'SF Certified AI Associate', group: 'associate', img: 'assets/badges/aiassociate.png', issued: 'September 2023' },
+  { name: 'SF Certified AI Associate (Retired)', group: 'associate', img: 'assets/badges/aiassociate.png', issued: 'September 2023' },
   { name: 'SF Certified Marketing Cloud Engagement Foundations', group: 'associate', img: 'assets/badges/marketingfoundations.png', issued: 'June 2024' },
   { name: 'SF Certified Sales Foundations', group: 'associate', img: 'assets/badges/salesfoundations.png', issued: 'November 2023' },
   { name: 'SF Certified Platform Foundations', group: 'associate', img: 'assets/badges/platformfoundations.png', issued: 'April 2023' },
