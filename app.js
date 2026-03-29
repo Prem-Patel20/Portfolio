@@ -186,7 +186,7 @@ const certs = [
   { name: 'SF Certified Service Cloud Consultant', group: 'consultant', img: 'assets/badges/servicecloud.png', issued: 'July 2023' },
   { name: 'SF Certified Field Service Consultant', group: 'consultant', img: 'assets/badges/fieldservice.png', issued: 'December 2023' },
   { name: 'SF Certified Experience Cloud Consultant', group: 'consultant', img: 'assets/badges/experiencecloud.png', issued: 'November 2024' },
-  { name: 'SF Certified Data Cloud Consultant', group: 'consultant', img: 'assets/badges/datacloud.png', issued: 'February 2024' },
+  { name: 'SF Certified Data 360 Consultant', group: 'consultant', img: 'assets/badges/datacloud.png', issued: 'February 2024' },
   { name: 'SF Certified Business Analyst', group: 'consultant', img: 'assets/badges/businessanalyst.png', issued: 'June 2025',colorOverride: 'admin'},
 
   // DEVELOPER
