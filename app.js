@@ -3,11 +3,12 @@
  * Personal Portfolio Site Script
  *
  * Author: Prem Patel
- * Date: January 23, 2026
- * Description: Handles theme toggling, modal interactions,
- *              Salesforce Web-to-Lead form submission,
- *              certification filtering, typing animation,
- *              scroll reveal effects, and navigation behavior.
+ * Last Updated: May 2026
+ * Description: Handles theme toggling, animated sidebar collapse,
+ *              modal interactions, Salesforce Web-to-Lead form submission,
+ *              certification filtering with fade animation, typing animation,
+ *              scroll reveal effects, active nav highlighting, and
+ *              mobile bottom navigation behavior.
  */
 
 // -----------------------------
@@ -42,10 +43,8 @@ window.addEventListener('load', () => {
 function applyTheme(theme) {
   if (theme === 'dark') {
     document.body.classList.add('dark');
-    if (themeIcon) themeIcon.textContent = '🌙';
   } else {
     document.body.classList.remove('dark');
-    if (themeIcon) themeIcon.textContent = '☀️';
   }
 }
 
@@ -62,17 +61,50 @@ on(themeToggle, 'click', () => {
   const next = isDark ? 'dark' : 'light';
   localStorage.setItem('theme', next);
   applyTheme(next);
+
+  // Spin the icon
+  const icon = document.getElementById('themeIcon');
+  if (icon) {
+    icon.classList.remove('theme-spinning');
+    void icon.offsetWidth; // force reflow to restart animation
+    icon.classList.add('theme-spinning');
+    icon.addEventListener('animationend', () => icon.classList.remove('theme-spinning'), { once: true });
+  }
 });
 
 // -----------------------------
 // Modal helpers
 // -----------------------------
+// Remember what had focus before a modal opened, so we can restore it on close
+let lastFocusedEl = null;
+
+function getFocusable(el) {
+  return [...el.querySelectorAll(
+    'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )].filter(n => {
+    // skip elements explicitly hidden
+    if (n.hasAttribute('hidden')) return false;
+    const style = (typeof window !== 'undefined' && window.getComputedStyle) ? window.getComputedStyle(n) : null;
+    if (style && (style.display === 'none' || style.visibility === 'hidden')) return false;
+    return true;
+  });
+}
+
 function openModal(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  lastFocusedEl = document.activeElement;
   el.classList.add('open');
   el.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  // Move focus into the modal (first focusable element, or the modal itself)
+  const focusables = getFocusable(el);
+  if (focusables[0]) {
+    focusables[0].focus();
+  } else {
+    el.setAttribute('tabindex', '-1');
+    el.focus();
+  }
 }
 
 function closeModal(id) {
@@ -81,6 +113,11 @@ function closeModal(id) {
   el.classList.remove('open');
   el.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  // Restore focus to whatever opened the modal
+  if (lastFocusedEl && typeof lastFocusedEl.focus === 'function') {
+    lastFocusedEl.focus();
+    lastFocusedEl = null;
+  }
 }
 
 // Close when clicking backdrop or close buttons
@@ -92,10 +129,28 @@ document.addEventListener('click', (e) => {
   if (backdrop?.id) closeModal(backdrop.id);
 });
 
-// Esc closes any open modal
+// Keyboard: Esc closes any open modal; Tab is trapped inside it
 document.addEventListener('keydown', (e) => {
-  if (e.key !== 'Escape') return;
-  document.querySelectorAll('.modalBackdrop.open').forEach((b) => closeModal(b.id));
+  const openBackdrop = document.querySelector('.modalBackdrop.open');
+
+  if (e.key === 'Escape' && openBackdrop) {
+    closeModal(openBackdrop.id);
+    return;
+  }
+
+  if (e.key === 'Tab' && openBackdrop) {
+    const focusables = getFocusable(openBackdrop);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 });
 
 // -----------------------------
@@ -116,6 +171,18 @@ async function handleWebToLead(event) {
   // Basic guard (required attrs should handle most cases)
   if (!fullName || !email) {
     alert('Please fill out your name and email.');
+    return;
+  }
+
+  // Reject overly long input
+  if (fullName.length > 120 || email.length > 254) {
+    alert('Please shorten your name or email and try again.');
+    return;
+  }
+
+  // Check email format (Salesforce still validates server-side)
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address.');
     return;
   }
 
@@ -167,10 +234,7 @@ async function handleWebToLead(event) {
 // -----------------------------
 on($('trailheadBtn'), 'click', () => openModal('trailheadBackdrop'));
 on($('certBtn'), 'click', () => openModal('certBackdrop'));
-on($('openCertsFromAbout'), 'click', () => openModal('certBackdrop'));
 
-// Mobile menu open
-on($('mobileMenuBtn'), 'click', () => openModal('mobileMenuBackdrop'));
 
 // -----------------------------
 // Certifications data + filtering
@@ -186,23 +250,23 @@ const certs = [
   { name: 'SF Certified Service Cloud Consultant', group: 'consultant', img: 'assets/badges/servicecloud.png', issued: 'July 2023' },
   { name: 'SF Certified Field Service Consultant', group: 'consultant', img: 'assets/badges/fieldservice.png', issued: 'December 2023' },
   { name: 'SF Certified Experience Cloud Consultant', group: 'consultant', img: 'assets/badges/experiencecloud.png', issued: 'November 2024' },
-  { name: 'SF Certified Data 360 Consultant', group: 'consultant', img: 'assets/badges/datacloud.png', issued: 'February 2024' },
+  { name: 'SF Certified Data Cloud Consultant', group: 'consultant', img: 'assets/badges/datacloud.png', issued: 'February 2024' },
   { name: 'SF Certified Business Analyst', group: 'consultant', img: 'assets/badges/businessanalyst.png', issued: 'June 2025',colorOverride: 'admin'},
 
   // DEVELOPER
   { name: 'SF Certified Platform Developer', group: 'dev', img: 'assets/badges/pd1.png', issued: 'May 2023' },
-  { name: 'SF Certified JavaScript Developer', group: 'dev', img: 'assets/badges/jsd1.png', issued: 'Feb 2026' },
+  { name: 'SF Certified Javascript Developer', group: 'dev', img: 'assets/badges/jsd1.png', issued: 'February 2026' },
   { name: 'SF Certified Agentforce Specialist', group: 'dev', img: 'assets/badges/agentforce.png', issued: 'September 2024' },
 
-  // ASSOCIATE ✅
+  // ASSOCIATE
   { name: 'SF Certified AI Associate (Retired)', group: 'associate', img: 'assets/badges/aiassociate.png', issued: 'September 2023' },
   { name: 'SF Certified Marketing Cloud Engagement Foundations', group: 'associate', img: 'assets/badges/marketingfoundations.png', issued: 'June 2024' },
   { name: 'SF Certified Sales Foundations', group: 'associate', img: 'assets/badges/salesfoundations.png', issued: 'November 2023' },
   { name: 'SF Certified Platform Foundations', group: 'associate', img: 'assets/badges/platformfoundations.png', issued: 'April 2023' },
 
   // COPADO (optional)
-  { name: 'Copado Fundamentals I - Source Format Pipeline', group: 'copado', img: 'assets/badges/Copado1.png', issued: 'November 2025' },
-  { name: 'Copado Fundamentals II - Source Format Pipeline', group: 'copado', img: 'assets/badges/Copado2.png', issued: 'November 2025' },
+  { name: 'Copado Fundamentals I - Source Format Pipeline', group: 'copado', img: 'assets/badges/copado1.png', issued: 'November 2025' },
+  { name: 'Copado Fundamentals II - Source Format Pipeline', group: 'copado', img: 'assets/badges/copado2.png', issued: 'November 2025' },
   { name: 'Copado AI', group: 'copado', img: 'assets/badges/CopadoAI.png', issued: 'March 2026' }
 ];
 
@@ -216,7 +280,8 @@ function renderCerts(filter) {
 
   // wait for the fade-out to complete, then swap content, then fade back in
   setTimeout(() => {
-    badgeGrid.innerHTML = '';
+    // clear old badges
+    badgeGrid.replaceChildren();
 
     const list = certs.filter(c => (filter === 'all' ? true : c.group === filter));
 
@@ -225,18 +290,31 @@ function renderCerts(filter) {
       const colorClass = c.colorOverride ? `cert-${c.colorOverride}` : `cert-${c.group}`;
       div.className = `badge card-hover ${colorClass}`;
 
-      div.innerHTML = `
-      <img class="badgeImg" src="${c.img}" alt="${c.name}">
-      <div class="badgeOverlay">
-        <div class="badgeTitle">${c.name}</div>
-        <div class="badgeIssued">Issued ${c.issued}</div>
-      </div>
-    `;
+      // build with textContent so values render as text, not HTML
+      const img = document.createElement('img');
+      img.className = 'badgeImg';
+      img.setAttribute('src', c.img);
+      img.setAttribute('alt', c.name);
 
+      const overlay = document.createElement('div');
+      overlay.className = 'badgeOverlay';
+
+      const title = document.createElement('div');
+      title.className = 'badgeTitle';
+      title.textContent = c.name;
+
+      const issued = document.createElement('div');
+      issued.className = 'badgeIssued';
+      issued.textContent = `Issued ${c.issued}`;
+
+      overlay.appendChild(title);
+      overlay.appendChild(issued);
+      div.appendChild(img);
+      div.appendChild(overlay);
       badgeGrid.appendChild(div);
     });
 
-    // force reflow so the browser “sees” the new DOM before we fade back in
+    // force reflow so the browser sees the new DOM before we fade back in
     badgeGrid.offsetHeight;
 
     // fade in
@@ -255,13 +333,7 @@ chipButtons.forEach((btn) => {
 // initial cert render
 if (badgeGrid) renderCerts('all');
 
-// -----------------------------
-// Fake Trailhead stats (edit these)
-// -----------------------------
-/*document.getElementById('rankValue').textContent = 'All Star Ranger';
-document.getElementById('pointsValue').textContent = '428,300';
-document.getElementById('trailsValue').textContent = '72';
-document.getElementById('certCountValue').textContent = '15'; //String(certs.length);*/
+
 
 // -----------------------------
 // Typing animation (Hero subtitle)
@@ -280,7 +352,7 @@ const typingWords = [
   { word: 'Administrator.', prefix: "I’m an " },
   { word: 'Consultant.', prefix: "I’m a " },
   { word: 'Engineer.', prefix: "I'm an "},
-  { word: 'Analyst. ', prefix: "I'm an "},
+  { word: 'Analyst.', prefix: "I'm an "},
   { word: 'Trailblazer.', prefix: "I'm a "},
    { word: 'Tech Enthusiast.', prefix: "I’m a " },
   { word: 'Collaborator.', prefix: "I’m a " },
@@ -348,110 +420,7 @@ revealEls.forEach((el) => io.observe(el));
 
 
 
-// NAV collapse/expand toggle (no forced scroll)
-// NAV: click-toggle + auto collapse on scroll down + auto expand at top
-// NAV: expanded on load + click toggle + auto collapse on scroll down + expand at top
-// -----------------------------
-(() => {
-  const navPill = document.querySelector('.navPill');
-  const logo = document.getElementById('navToggleLogo');
-  if (!navPill || !logo) return;
 
-  const COLLAPSE_AFTER_PX = 120;
-
-  const isCollapsed = () => navPill.classList.contains('is-collapsed');
-  const setCollapsed = (collapsed) => navPill.classList.toggle('is-collapsed', collapsed);
-
-  // Pause auto-collapse while we do a programmatic smooth scroll
-  let suspendAutoCollapseUntil = 0;
-  const suspendAutoCollapse = (ms = 800) => {
-    suspendAutoCollapseUntil = Date.now() + ms;
-  };
-
-  // Start expanded
-  setCollapsed(false);
-
-  // Click PP: toggle ONLY, never scroll to #home
-  logo.addEventListener('click', (e) => {
-    e.preventDefault();
-    setCollapsed(!isCollapsed());
-  });
-
-  // Auto behavior on scroll (unless suspended)
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (Date.now() < suspendAutoCollapseUntil) return;
-
-      const y = window.scrollY;
-
-      // Expand at very top
-      if (y <= 2) {
-        if (isCollapsed()) setCollapsed(false);
-        return;
-      }
-
-      // Collapse after threshold
-      if (y >= COLLAPSE_AFTER_PX) {
-        if (!isCollapsed()) setCollapsed(true);
-      }
-    },
-    { passive: true }
-  );
-
-  // ----- Smooth scroll with correct offset -----
-  const offset = () => (navPill?.getBoundingClientRect().height || 60) + 24;
-
-  const scrollToHash = (hash) => {
-    const id = (hash || '#home').replace('#', '');
-    const el = document.getElementById(id);
-    if (!el) return;
-
-    const y = el.getBoundingClientRect().top + window.pageYOffset - offset();
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  };
-
-  document.querySelectorAll('a.navLink, a.mobileNavLink').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href') || '';
-      if (!href.startsWith('#')) return;
-
-      e.preventDefault();
-
-      // ✅ keep nav OPEN when navigating
-      setCollapsed(false);
-
-      // ✅ prevent scroll listener from collapsing during smooth scroll
-      suspendAutoCollapse(900);
-
-
-
-      // ✅ close mobile menu after selecting a link
-      if (a.classList.contains('mobileNavLink')) {
-        closeModal('mobileMenuBackdrop');
-      }
-      history.pushState(null, '', href);
-      scrollToHash(href);
-    });
-  });
-
-  // If user loads page with #hash, scroll with correct offset (and don't collapse)
-
-
-  // Keep mobile menu from getting "stuck" open when rotating / resizing
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 820) {
-      closeModal('mobileMenuBackdrop');
-    }
-  });
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      setCollapsed(false);
-      suspendAutoCollapse(900);
-      scrollToHash(window.location.hash);
-    }
-  });
-})();
 
 
 // =============================
@@ -459,7 +428,7 @@ revealEls.forEach((el) => io.observe(el));
 // =============================
 // Single source of truth for your availability pill.
 // Toggle this to control both styles + text in the HERO pill.
-const OPEN_TO_WORK = true; // 🔁 set to false when not open
+const OPEN_TO_WORK = true; // set to false when not open
 
 (() => {
   const pill = document.getElementById('workStatusPill');
@@ -478,35 +447,299 @@ const OPEN_TO_WORK = true; // 🔁 set to false when not open
   }
 })();
 // -----------------------------
-// Work pill click-collapse
-// ----------------------------- 
-/*
-(() => {
-  const pill = document.getElementById('workPill');
-  if (!pill) return;
 
+
+// -----------------------------
+// Open to Work pill: starts as dot, hover pins, click collapses
+// -----------------------------
+(() => {
+  const wrap = document.getElementById('workStatusWrap');
+  const pill = document.getElementById('workStatusPill');
+  if (!wrap || !pill) return;
+
+  const EXPANDED = 'is-expanded';
+
+  // Hover = expand and stay
+  wrap.addEventListener('mouseenter', () => {
+    pill.classList.add(EXPANDED);
+  });
+
+  // Click = collapse back to dot
   pill.addEventListener('click', () => {
-    pill.classList.toggle('is-collapsed');
+    pill.classList.remove(EXPANDED);
   });
 })();
-*/
+
+// ─── Sidebar: active link highlight on scroll ───
+(() => {
+  const links = document.querySelectorAll('.sideLink');
+  if (!links.length) return;
+
+  const sections = [...links].map(l => {
+    const id = (l.getAttribute('href') || '').replace('#', '');
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  const onScroll = () => {
+    // Find the section whose top is closest to (but still above) 40% of viewport height
+    const threshold = window.innerHeight * 0.4;
+    let current = sections[0]?.id || '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= threshold) current = sec.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// ─── Sidebar: smooth scroll with section offset ───
+(() => {
+  document.querySelectorAll('a.sideLink').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      e.preventDefault();
+      const el = document.getElementById(href.replace('#', ''));
+      if (!el) return;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 24, behavior: 'smooth' });
+      history.pushState(null, '', href);
+    });
+  });
+})();
+
+
+// ─── Animated Sidebar Collapse ───
+(() => {
+  const sidebar = document.getElementById('sidebar');
+  const btn = document.getElementById('sideCollapseBtn');
+  const mainContent = document.querySelector('.mainContent');
+  if (!sidebar || !btn) return;
+
+  const STORAGE_KEY = 'sidebarCollapsed';
+  const COLLAPSED = 'collapsed';
+
+  const setCollapsed = (collapsed) => {
+    sidebar.classList.toggle(COLLAPSED, collapsed);
+    document.body.classList.toggle('sidebar-collapsed', collapsed);
+    btn.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+    localStorage.setItem(STORAGE_KEY, collapsed ? '1' : '0');
+  };
+
+  // Restore saved state
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved === '1') setCollapsed(true);
+
+  btn.addEventListener('click', () => {
+    setCollapsed(!sidebar.classList.contains(COLLAPSED));
+  });
+})();
+
+
+// ─── Bottom Nav: active highlight + smooth scroll ───
+(() => {
+  const bottomItems = document.querySelectorAll('.bottomNavItem[data-section]');
+  if (!bottomItems.length) return;
+
+  const sections = [...bottomItems].map(b => document.getElementById(b.dataset.section)).filter(Boolean);
+
+  // Smooth scroll on tap
+  bottomItems.forEach(item => {
+    item.addEventListener('click', e => {
+      const href = item.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      const target = document.getElementById(href.replace('#', ''));
+      if (!target) return;
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 72, behavior: 'smooth' });
+      history.pushState(null, '', href);
+    });
+  });
+
+  // Active state on scroll
+  const onScroll = () => {
+    const threshold = window.innerHeight * 0.4;
+    let current = sections[0]?.id || '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= threshold) current = sec.id;
+    });
+    bottomItems.forEach(item => {
+      item.classList.toggle('active', item.dataset.section === current);
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// ─── Full-page scroll snap: card visibility transitions ───
+(() => {
+  const main = document.getElementById('mainContent');
+  const sections = document.querySelectorAll('.section');
+  if (!main || !sections.length) return;
+
+  // Use IntersectionObserver on mainContent as root
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('snap-visible');
+      }
+    });
+  }, {
+    root: main,
+    threshold: 0.15
+  });
+
+  sections.forEach(s => io.observe(s));
+
+  // Re-wire sidebar nav clicks to scroll mainContent instead of window
+  document.querySelectorAll('a.sideLink').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href') || '';
+      if (!href.startsWith('#')) return;
+      e.preventDefault();
+      e.stopImmediatePropagation(); // override the earlier listener
+      const target = document.getElementById(href.replace('#', ''));
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth' });
+      history.pushState(null, '', href);
+    });
+  });
+
+  // Re-wire mobile bottom nav clicks to scroll mainContent
+  document.querySelectorAll('.bottomNavItem[data-section]').forEach(item => {
+    item.addEventListener('click', e => {
+      const href = item.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const target = document.getElementById(href.replace('#', ''));
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'smooth' });
+      history.pushState(null, '', href);
+    });
+  });
+
+  // Re-wire sidebar active highlight to use mainContent scroll
+  const links = document.querySelectorAll('.sideLink');
+  const sectionList = [...links].map(l => {
+    const id = (l.getAttribute('href') || '').replace('#', '');
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  main.addEventListener('scroll', () => {
+    const threshold = main.clientHeight * 0.4;
+    let current = sectionList[0]?.id || '';
+    sectionList.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= threshold) current = sec.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+})();
+
+// ─── Scroll Progress Bar ───
+(() => {
+  const bar = document.getElementById('scrollProgress');
+  const main = document.getElementById('mainContent');
+  if (!bar || !main) return;
+
+  main.addEventListener('scroll', () => {
+    const { scrollTop, scrollHeight, clientHeight } = main;
+    const pct = (scrollTop / (scrollHeight - clientHeight)) * 100;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
+
+// ─── Floating avatar: smoothly interpolates between Home and About ───
+(() => {
+  const main = document.getElementById('mainContent');
+  const floatingAvatar = document.getElementById('floatingAvatar');
+  const homeSection = document.getElementById('home');
+  const aboutSection = document.getElementById('about');
+  if (!main || !floatingAvatar || !homeSection || !aboutSection) return;
+
+  const homePlaceholder = document.getElementById('heroAvatarWrap')?.querySelector('.avatarRingPlaceholder');
+  const aboutPlaceholder = document.getElementById('aboutAvatarPlaceholder');
+  if (!homePlaceholder || !aboutPlaceholder) return;
+
+  // Disable CSS transition — we interpolate manually each frame
+  floatingAvatar.style.transition = 'none';
+  floatingAvatar.style.opacity = '1';
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function update() {
+    const homeRect = homeSection.getBoundingClientRect();
+    const aboutRect = aboutSection.getBoundingClientRect();
+    const vh = main.clientHeight;
+
+    // progress: 0 = fully on home, 1 = fully on about
+    const progress = Math.max(0, Math.min(1, -homeRect.top / vh));
+
+    const hRect = homePlaceholder.getBoundingClientRect();
+    const aRect = aboutPlaceholder.getBoundingClientRect();
+
+    const top    = lerp(hRect.top,    aRect.top,    progress);
+    const left   = lerp(hRect.left,   aRect.left,   progress);
+    const width  = lerp(hRect.width,  aRect.width,  progress);
+    const height = lerp(hRect.height, aRect.height, progress);
+
+    floatingAvatar.style.top    = top + 'px';
+    floatingAvatar.style.left   = left + 'px';
+    floatingAvatar.style.width  = width + 'px';
+    floatingAvatar.style.height = height + 'px';
+
+    // Hide when scrolled past About
+    const pastAbout = aboutRect.bottom < 0;
+    const beforeHome = homeRect.top > vh;
+    floatingAvatar.style.opacity = (pastAbout || beforeHome) ? '0' : '1';
+
+    requestAnimationFrame(update);
+  }
+
+  // Set initial position instantly
+  const hRect = homePlaceholder.getBoundingClientRect();
+  floatingAvatar.style.top    = hRect.top + 'px';
+  floatingAvatar.style.left   = hRect.left + 'px';
+  floatingAvatar.style.width  = hRect.width + 'px';
+  floatingAvatar.style.height = hRect.height + 'px';
+
+  requestAnimationFrame(update);
+})();
 
 // -----------------------------
-// Open to Work pill: click collapse + hover auto-pin
+// Mobile header buttons (moved out of inline script for CSP)
 // -----------------------------
 (() => {
-  const pill = document.getElementById('workStatusPill');
-  if (!pill) return;
+  on($('trailheadBtnMobile'), 'click', () => openModal('trailheadBackdrop'));
+  on($('certBtnMobile'), 'click', () => openModal('certBackdrop'));
 
-  const COLLAPSED = 'is-collapsed';
-
-  // Hover = expand + pin
-  pill.addEventListener('mouseenter', () => {
-    pill.classList.remove(COLLAPSED);
+  const tmMobile = $('themeToggleMobile');
+  on(tmMobile, 'click', () => {
+    const isDark = document.body.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    const iconMobile = $('themeIconMobile');
+    if (iconMobile) {
+      iconMobile.classList.remove('theme-spinning');
+      void iconMobile.offsetWidth;
+      iconMobile.classList.add('theme-spinning');
+      on(iconMobile, 'animationend', () => iconMobile.classList.remove('theme-spinning'), { once: true });
+    }
   });
+})();
 
-  // Click toggles collapse
-  pill.addEventListener('click', () => {
-    pill.classList.toggle(COLLAPSED);
+// -----------------------------
+// Modal triggers (data-open-modal) + contact form binding
+// -----------------------------
+(() => {
+  document.querySelectorAll('[data-open-modal]').forEach((el) => {
+    on(el, 'click', () => openModal(el.getAttribute('data-open-modal')));
   });
+  on($('contactForm'), 'submit', handleWebToLead);
 })();
