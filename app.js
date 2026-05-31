@@ -265,8 +265,8 @@ const certs = [
   { name: 'SF Certified Platform Foundations', group: 'associate', img: 'assets/badges/platformfoundations.png', issued: 'April 2023' },
 
   // COPADO (optional)
-  { name: 'Copado Fundamentals I - Source Format Pipeline', group: 'copado', img: 'assets/badges/copado1.png', issued: 'November 2025' },
-  { name: 'Copado Fundamentals II - Source Format Pipeline', group: 'copado', img: 'assets/badges/copado2.png', issued: 'November 2025' },
+  { name: 'Copado Fundamentals I - Source Format Pipeline', group: 'copado', img: 'assets/badges/Copado1.png', issued: 'November 2025' },
+  { name: 'Copado Fundamentals II - Source Format Pipeline', group: 'copado', img: 'assets/badges/Copado2.png', issued: 'November 2025' },
   { name: 'Copado AI', group: 'copado', img: 'assets/badges/CopadoAI.png', issued: 'March 2026' }
 ];
 
