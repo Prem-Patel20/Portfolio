@@ -770,7 +770,7 @@ const OPEN_TO_WORK = true; // set to false when not open
     totalMs += Math.max(0, end - start);
   });
 
-  const years = Math.floor(totalMs / msPerYear);
+  const years = Math.round(totalMs / msPerYear);
 
   const target = document.getElementById('yearsExperience');
   if (target) {
