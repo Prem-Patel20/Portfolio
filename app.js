@@ -448,8 +448,6 @@ const OPEN_TO_WORK = true; // set to false when not open
   }
 })();
 // -----------------------------
-
-
 // -----------------------------
 // Open to Work pill: starts as dot, hover pins, click collapses
 // -----------------------------
@@ -743,4 +741,39 @@ const OPEN_TO_WORK = true; // set to false when not open
     on(el, 'click', () => openModal(el.getAttribute('data-open-modal')));
   });
   on($('contactForm'), 'submit', handleWebToLead);
+})();
+// -----------------------------
+// Dynamic years of experience (parsed from HTML)
+// -----------------------------
+(() => {
+  const monthMap = {
+    january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
+    july: 6, august: 7, september: 8, october: 9, november: 10, december: 11
+  };
+
+  const parseDate = (str) => {
+    str = str.trim().toLowerCase();
+    if (str === 'present') return new Date();
+    const [month, year] = str.split(/\s+/);
+    return new Date(parseInt(year, 10), monthMap[month] ?? 0, 1);
+  };
+
+  const dateEls = document.querySelectorAll('.timelineDates');
+  const msPerYear = 1000 * 60 * 60 * 24 * 365.25;
+
+  let totalMs = 0;
+  dateEls.forEach((el) => {
+    const [startStr, endStr] = el.textContent.split('—');
+    if (!startStr || !endStr) return;
+    const start = parseDate(startStr);
+    const end = parseDate(endStr);
+    totalMs += Math.max(0, end - start);
+  });
+
+  const years = Math.floor(totalMs / msPerYear);
+
+  const target = document.getElementById('yearsExperience');
+  if (target) {
+    target.textContent = `${years}+ Years`;
+  }
 })();
